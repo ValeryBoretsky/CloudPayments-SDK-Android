@@ -4,7 +4,7 @@
     <string name="cpsdk_text_options_title">Выберите способ оплаты</string>
     <string name="cpsdk_text_options_card">Оплатить картой</string>
 
-    <string name="cpsdk_text_card_title">Введите данные карты</string>
+    <string name="cpsdk_text_card_title">Введите данные карты РФ</string>
     <string name="cpsdk_text_card_hint_number">Номер карты</string>
     <string name="cpsdk_text_card_hint_exp">ММ/ГГ</string>
     <string name="cpsdk_text_card_hint_cvv">CVC</string>
