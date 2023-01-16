@@ -6,10 +6,12 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textfield.TextInputEditText
 import ru.cloudpayments.sdk.R
 import ru.cloudpayments.sdk.card.Card
@@ -86,21 +88,6 @@ internal class PaymentCardFragment: BasePaymentFragment<PaymentCardViewState, Pa
 		super.onViewCreated(view, savedInstanceState)
 
 		activity().component.inject(viewModel)
-
-		if (isEmailRequired()) {
-			binding.checkboxReceipt.isGone = true
-			binding.tilEmail.isVisible = true
-		}
-
-		paymentConfiguration
-				?.previewEmail
-				?.takeIf(::emailIsValid)
-				?.let(binding.editEmail::setText)
-
-		binding.checkboxReceipt.setOnCheckedChangeListener { _, isChecked ->
-			binding.tilEmail.isGone = !isChecked
-			requireActivity().hideKeyboard()
-		}
 
 		cardNumberFormatWatcher.installOn(binding.editCardNumber)
 		cardExpFormatWatcher.installOn(binding.editCardExp)
@@ -195,6 +182,23 @@ internal class PaymentCardFragment: BasePaymentFragment<PaymentCardViewState, Pa
 		binding.buttonPay.text = getString(R.string.cpsdk_text_card_pay_button, String.format("%.2f " + Currency.getSymbol(paymentConfiguration!!.paymentData.currency), paymentConfiguration!!.paymentData.amount.toDouble()))
 
 		updatePaymentSystemIcon("")
+
+		if (isEmailRequired()) {
+			binding.checkboxReceipt.isGone = true
+			binding.tilEmail.isVisible = true
+		}
+
+		binding.checkboxReceipt.setOnCheckedChangeListener { _, isChecked ->
+			binding.tilEmail.isGone = !isChecked
+			requireActivity().hideKeyboard()
+		}
+
+		binding.checkboxReceipt.checkedState = if (paymentConfiguration!!.showEmailField) MaterialCheckBox.STATE_CHECKED else MaterialCheckBox.STATE_UNCHECKED
+
+		paymentConfiguration
+			?.email
+			?.takeIf(::emailIsValid)
+			?.let(binding.editEmail::setText)
 	}
 
 	private fun errorMode(isErrorMode: Boolean, editText: TextInputEditText){

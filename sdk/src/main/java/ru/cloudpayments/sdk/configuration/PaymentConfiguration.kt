@@ -7,9 +7,10 @@ import ru.cloudpayments.sdk.scanner.CardScanner
 @Parcelize
 data class PaymentConfiguration(val paymentData: PaymentData,
 								val scanner: CardScanner?,
+								val email: String = "",
+								val showEmailField: Boolean = false,
+								val emailRequired: Boolean = false,
 								val useDualMessagePayment: Boolean = false,
 								val disableGPay: Boolean = false,
 								val disableYandexPay: Boolean = false,
-								val yandexPayMerchantID: String = "",
-								val previewEmail: String? = null,
-								val emailRequired: Boolean = false): Parcelable
+								val yandexPayMerchantID: String = ""): Parcelable
